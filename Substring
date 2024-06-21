@@ -1,0 +1,39 @@
+def upperr(str):
+    print(str.upper())
+
+def occurences(str):
+    count=0
+    str1=input("Enter the caharacter to be found: ")
+    for i in str:
+        if i==str1:
+            count=count+1
+    print("occurances: ",count)
+
+def present_str(str,sub_str):
+    if(str.find(sub_str)==-1):
+        print("Not present")
+    else:
+        print("Present")
+
+def replace_str(str,old_str,new_str):
+    print(str.replace(old_str,new_str))
+
+str=input("Enter the string: ")
+while(1):
+    print("1.Check if the String is a Substring of Another String\n2.Count Occurrences of Character\n3.Replace a substring with another substring\n4.Convert to Capital Letters\n5.Exit")
+    choice=int(input("Enter the choice: "))
+    if(choice==1):
+        sub_str=input("Enter the substring: ")
+        present_str(str,sub_str)
+    elif(choice==2):
+        occurences(str)
+    elif(choice==3):
+        old_str=input("Enter the old string: ")
+        new_str=input("Enter the new string: ")
+        replace_str(str,old_str,new_str)
+    elif(choice==4):
+        upperr(str)
+    elif(choice==5):
+        exit
+    else:
+        print("Invalid number")
