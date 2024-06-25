@@ -1,0 +1,17 @@
+students = {}
+N = int(input("Enter the number of students: "))
+for _ in range(N):
+    roll_no = input("Enter roll number: ")
+    name = input("Enter name: ")
+    total_mark = int(input("Enter total marks: "))
+    students[roll_no] = {'name': name, 'total_mark': total_mark}
+max_mark = -1
+top_student = {}
+for roll_no, details in students.items():
+    if details['total_mark'] > max_mark:
+        max_mark = details['total_mark']
+        top_student = {'roll_no': roll_no, 'name': details['name'], 'total_mark': details['total_mark']}
+print("\nStudent with the highest total mark:")
+print(f"Roll No: {top_student['roll_no']}")
+print(f"Name: {top_student['name']}")
+print(f"Total Mark: {top_student['total_mark']}")
