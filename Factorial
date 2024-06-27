@@ -1,0 +1,19 @@
+factorial_dict = {}
+
+def factorial(n):
+    if n < 0:
+        return "Factorial is not defined for negative numbers"
+    if n == 0 or n == 1:
+        factorial_dict[n] = 1
+        return 1
+    
+    if n in factorial_dict:
+        return factorial_dict[n]
+    
+    result = n * factorial(n - 1)
+    factorial_dict[n] = result
+    return result
+
+number = 5
+print(f"Factorial of {number} is {factorial(number)}")
+print(f"Factorial dictionary: {factorial_dict}")
