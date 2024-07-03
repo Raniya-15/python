@@ -1,0 +1,23 @@
+import networkx as nx
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_excel("C:/Users/Raniya/Desktop/Datasets/network_demo.xlsx")
+print(df.columns)
+
+source_col = "SourceNode"
+target_col = "Target"
+weight_col = "Weight"
+
+g = nx.from_pandas_edgelist(df, source=source_col, target=target_col, edge_attr=weight_col)
+
+p = nx.spring_layout(g, seed=42)
+
+plt.figure(figsize=(10, 14))
+nx.draw(g,p,with_labels=True,node_size=3000,node_color="black",font_size=10,font_weight="bold")
+
+edge_labels={(u,v):d[weight_col]for u,v,d in g.edges(data=True)}
+
+nx.draw_networkx_edge_labels(g, p, edge_labels=edge_labels, font_color='red')
+
+nx.draw_networkx_labels(g,p,labels={node:node for node in g.nodes()},font_size=12,font_color='red')
+plt.show()
