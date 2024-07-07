@@ -1,0 +1,52 @@
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+import matplotlib.path as mpath
+df = pd.read_excel("C:/Users/Raniya/Desktop/Datasets/network_demo.xlsx", engine='openpyxl')
+source_col="SourceNode"
+target_col="Target"
+weight_col="Weight"
+# Create the graph from the DataFrame
+g = nx.from_pandas_edgelist(df, source=source_col, target=target_col, edge_attr=weight_col)
+
+# Get a sorted list of nodes
+nodes = sorted(g.nodes())
+node_pos = {node: (i, 0) for i, node in enumerate(nodes)}
+
+# Create figure and axis
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Plot nodes
+for node, (x, y) in node_pos.items():
+    ax.scatter(x, y, s=300, color="blue")
+    ax.text(x, y, node, fontsize=12, ha='center', va='center')
+
+# Function to draw arcs
+def draw_arc(ax, p1, p2, weight):
+    x1, y1 = p1
+    x2, y2 = p2
+
+    # Control points for the arc
+    control_points = [
+        (x1, y1),
+        ((x1 + x2) / 2, np.abs(x1 - x2) / 2),
+        (x2, y2)
+    ]
+    codes = [mpath.Path.MOVETO, mpath.Path.CURVE3, mpath.Path.CURVE3]
+    path = mpath.Path(control_points, codes)
+    patch = patches.FancyArrowPatch(path=path, connectionstyle="arc3,rad=0.5", color='k', linewidth=weight / 100, alpha=0.6)
+    ax.add_patch(patch)
+
+# Draw arcs
+for (source, target, data) in g.edges(data=True):
+    src_pos = node_pos[source]
+    tgt_pos = node_pos[target]
+    draw_arc(ax, src_pos, tgt_pos, data[weight_col])
+
+# Remove axis
+ax.axis('off')
+
+# Show plot
+plt.show()
